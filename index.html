@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Syed Ahmed Haider Rizavi's interactive portfolio terminal." />
+    <title>Terminal | Haider Rizavi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="shell-page">
+    <div class="page-noise" aria-hidden="true"></div>
+    <header class="shell-header">
+      <a class="brand" href="index.html" aria-label="Portfolio terminal home">HAIDER<span>/</span>DEVOPS</a>
+      <p>PORTFOLIO TERMINAL <span>//</span> V1.0</p>
+    </header>
+    <main class="shell-landing">
+      <section class="shell-terminal-section" aria-labelledby="terminal-heading">
+        <h1 class="visually-hidden" id="terminal-heading">Syed Ahmed Haider Rizavi's portfolio terminal</h1>
+        <div class="terminal-window" id="terminal" aria-label="Portfolio terminal">
+          <div class="terminal-bar">
+            <div class="window-controls" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span>haider@portfolio — bash</span>
+            <span class="terminal-state">● LIVE</span>
+          </div>
+          <div class="terminal-body" id="terminal-output" aria-live="polite"></div>
+          <form class="terminal-input-row" id="terminal-form">
+            <label id="terminal-prompt" for="terminal-input">user@portfolio:/$</label>
+            <input id="terminal-input" type="text" autocomplete="off" spellcheck="false" placeholder="Type a command…" aria-label="Terminal command" autofocus />
+          </form>
+        </div>
+        <div class="shell-quick-links" aria-label="Quick commands">
+          <span>// QUICK COMMANDS</span>
+          <button class="command-chip" type="button" data-command="help">help</button>
+          <button class="command-chip" type="button" data-command="uiux">uiux</button>
+        </div>
+      </section>
+    </main>
+    <footer class="shell-footer"><span>READY</span> · TYPE <strong>HELP</strong> TO BEGIN <a href="portfolio.html">UIUX / OPEN VISUAL PORTFOLIO ↗</a></footer>
+    <script src="app.js"></script>
+  </body>
+</html>
