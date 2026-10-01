@@ -1,5 +1,12 @@
 [
   {
+    "name": "DevOps-AWS-K8s",
+    "stack": "Flask, MongoDB, Docker, AWS (EKS, VPC, ECR)",
+    "description": "Full DevOps project: containerized a Flask + MongoDB to-do app with Docker, provisioned AWS infrastructure (VPC, EKS, ECR) with Terraform, deployed via Kubernetes manifests, and automated builds/deploys with GitHub Actions.",
+    "githubUrl": "https://github.com/Sunloid/devops-aws-k8s-project",
+    "upworkUrl": "https://www.upwork.com/services/product/development-it-aws-eks-ci-cd-pipeline-terraform-docker-kubernetes-github-actions-2100609454806962972?ref=fl_profile"
+  },
+  {
     "name": "k8s-blue-green-deployment",
     "stack": "Kubernetes / Docker",
     "description": "Blue-green deployment demo with parallel Nginx environments, Docker images, and zero-downtime traffic switching via Kubernetes Service selectors.",
@@ -18,20 +25,6 @@
     "stack": "Node.js / Kubernetes",
     "description": "An automated Node.js delivery pipeline using Jenkins, Docker, Kubernetes, and GitHub webhooks.",
     "githubUrl": "https://github.com/Sunloid/CICD-Node-docker-k8s",
-    "upworkUrl": ""
-  },
-  {
-    "name": "DockerCompose-K8S-Techdome",
-    "stack": "Full stack / Docker",
-    "description": "A full-stack frontend, backend, and database application containerized with Docker and orchestrated with Kubernetes for local deployment.",
-    "githubUrl": "https://github.com/Sunloid/DockerCompose-K8S-Techdome",
-    "upworkUrl": ""
-  },
-  {
-    "name": "wexaai-devops-assessment",
-    "stack": "Next.js / GitHub Actions",
-    "description": "A DevOps assessment demonstrating containerized Next.js deployment with Docker, GitHub Actions, GHCR, and Minikube.",
-    "githubUrl": "https://github.com/Sunloid/wexaai-devops-assessment",
     "upworkUrl": ""
   },
   {
