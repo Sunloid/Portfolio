@@ -16,44 +16,9 @@ const portfolio = {
     uiux: "portfolio.html",
     portfolio: "portfolio.html",
   },
-  projects: [
-    {
-      name: "k8s-blue-green-deployment",
-      stack: "Kubernetes / Docker",
-      description: "Blue-green deployment demo with parallel Nginx environments, Docker images, and zero-downtime traffic switching via Kubernetes Service selectors.",
-      url: "https://github.com/Sunloid/k8s-blue-green-deployment",
-    },
-    {
-      name: "CICD-AWS-ECR-ECS",
-      stack: "AWS / Jenkins",
-      description: "End-to-end CI/CD pipeline that builds and tests a Java app, pushes images to Amazon ECR, and deploys automated rolling updates to ECS.",
-      url: "https://github.com/Sunloid/CICD-AWS-ECR-ECS",
-    },
-    {
-      name: "CICD-Node-docker-k8s",
-      stack: "Node.js / Kubernetes",
-      description: "An automated Node.js delivery pipeline using Jenkins, Docker, Kubernetes, and GitHub webhooks.",
-      url: "https://github.com/Sunloid/CICD-Node-docker-k8s",
-    },
-    {
-      name: "DockerCompose-K8S-Techdome",
-      stack: "Full stack / Docker",
-      description: "A full-stack frontend, backend, and database application containerized with Docker and orchestrated with Kubernetes for local deployment.",
-      url: "https://github.com/Sunloid/DockerCompose-K8S-Techdome",
-    },
-    {
-      name: "wexaai-devops-assessment",
-      stack: "Next.js / GitHub Actions",
-      description: "A DevOps assessment demonstrating containerized Next.js deployment with Docker, GitHub Actions, GHCR, and Minikube.",
-      url: "https://github.com/Sunloid/wexaai-devops-assessment",
-    },
-    {
-      name: "nextjs-express-mysql-deployment",
-      stack: "Next.js / Express / MySQL",
-      description: "A deployment-focused full-stack project built around Next.js, Express, and MySQL.",
-      url: "https://github.com/Sunloid/nextjs-express-mysql-deployment",
-    },
-  ],
+  // Projects now live in projects.json — this starts empty and gets filled
+  // in by loadProjects() below. Don't add project objects here directly.
+  projects: [],
 };
 
 const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({
@@ -64,12 +29,15 @@ function renderProjects() {
   const grid = document.querySelector("#project-grid");
   if (!grid) return;
   grid.innerHTML = portfolio.projects.map((project, index) => `
-    <a class="project-card" href="${project.url}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(project.name)} on GitHub">
-      <div class="project-card-top"><span>0${index + 1}</span><span>GITHUB ↗</span></div>
+    <article class="project-card">
+      <div class="project-card-top"><span>0${index + 1}</span><span>${escapeHtml(project.stack || "")}</span></div>
       <h3>${escapeHtml(project.name)}</h3>
       <p>${escapeHtml(project.description)}</p>
-      <div class="project-card-footer"><span>${escapeHtml(project.stack)}</span><span>VIEW PROJECT ↗</span></div>
-    </a>
+      <div class="project-card-footer">
+        <a href="${project.githubUrl}" target="_blank" rel="noopener" aria-label="Open ${escapeHtml(project.name)} on GitHub">GITHUB ↗</a>
+        ${project.upworkUrl ? `<a href="${project.upworkUrl}" target="_blank" rel="noopener" aria-label="View ${escapeHtml(project.name)} on Upwork">UPWORK ↗</a>` : ""}
+      </div>
+    </article>
   `).join("");
 }
 
@@ -138,7 +106,7 @@ function setupTerminal() {
     directory = next;
     prompt.textContent = `user@portfolio:${directory}$`;
   };
-  const projectList = () => `<div class="terminal-project-list">${portfolio.projects.map((project) => `<a href="${project.url}" target="_blank" rel="noopener">📁 ${escapeHtml(project.name)} <span class="muted">— ${escapeHtml(project.stack)}</span></a>`).join("")}</div>`;
+  const projectList = () => `<div class="terminal-project-list">${portfolio.projects.map((project) => `<div class="terminal-project-item"><span>📁 ${escapeHtml(project.name)} <span class="muted">— ${escapeHtml(project.stack)}</span></span><span class="terminal-project-links"><a href="${project.githubUrl}" target="_blank" rel="noopener">GitHub ↗</a>${project.upworkUrl ? `<a href="${project.upworkUrl}" target="_blank" rel="noopener">Upwork ↗</a>` : ""}</span></div>`).join("")}</div>`;
   const help = () => `
     <h3>Available commands:</h3>
     <p><strong>File System:</strong><br>- ls [path]: List directory contents<br>- cd &lt;path&gt;: Change directory<br>- cat &lt;file&gt;: Display file contents<br>- tree: Show directory tree structure<br>- pwd: Show current directory path</p>
@@ -177,9 +145,10 @@ function setupTerminal() {
       if (["about.txt", "about"].includes(file)) { showResponse(responses.about()); return; }
       if (["skills.txt", "skills"].includes(file)) { showResponse(responses.skills()); return; }
       if (["contact.txt", "contact"].includes(file)) { showResponse(responses.contact()); return; }
+      if (["resume.pdf", "resume"].includes(file)) { showResponse(`<p>Opening <a href="${portfolio.links.resume}" target="_blank" rel="noopener">Haider_Rizavi_Resume.pdf ↗</a></p>`); window.open(portfolio.links.resume, "_blank"); return; }
       showResponse(`<p class="terminal-error">cat: ${escapeHtml(file)}: No such file</p>`); return;
     }
-    if (command === "resume") { showResponse(`<p>Opening <a href="${portfolio.links.resume}" target="_blank" rel="noopener">Haider_Rizavi_Resume.pdf ↗</a></p>`); return; }
+    if (command === "resume") { showResponse(`<p>Opening <a href="${portfolio.links.resume}" target="_blank" rel="noopener">Haider_Rizavi_Resume.pdf ↗</a></p>`); window.open(portfolio.links.resume, "_blank"); return; }
     if (command === "portfolio" || command === "visual") { window.location.href = portfolio.links.portfolio; return; }
     if (command === "uiux" || command === "ui/ux") { window.location.href = portfolio.links.uiux; return; }
     if (command === "blog") { showResponse(`<p class="muted">Blog is coming soon. Check back after the next deployment.</p>`); return; }
@@ -198,6 +167,22 @@ function setupTerminal() {
   document.querySelectorAll("[data-command]").forEach((button) => button.addEventListener("click", () => { input.value = button.dataset.command; form.requestSubmit(); }));
 }
 
-renderProjects();
+async function loadProjects() {
+  try {
+    const response = await fetch(`projects.json?v=${Date.now()}`);
+    if (!response.ok) throw new Error("projects.json request failed");
+    portfolio.projects = await response.json();
+  } catch (error) {
+    // Falls back to an empty list rather than breaking the page.
+    // Note: this fetch will fail if you open index.html directly as a
+    // file:// URL — it needs to be served over http(s), which GitHub
+    // Pages does automatically. Use a local server to test (see README).
+    console.error("Could not load projects.json:", error);
+    portfolio.projects = [];
+  }
+  renderProjects();
+}
+
+loadProjects();
 setupTerminal();
 document.querySelectorAll("#year").forEach((element) => { element.textContent = new Date().getFullYear(); });

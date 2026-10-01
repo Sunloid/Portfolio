@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio Admin — Project Manager</title>
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --panel: #141414;
+    --line: #2a2a2a;
+    --orange: #ff6b1a;
+    --orange-bright: #ffa53d;
+    --cream: #f5f1e8;
+    --muted: #8a8a8a;
+    --error: #ff6b6b;
+    --success: #5ce087;
+    --mono: "JetBrains Mono", "Courier New", monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--mono);
+    padding: 40px 20px 80px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 22px; color: var(--orange); margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 13px; margin-bottom: 32px; }
+  .warning {
+    background: rgba(255, 107, 26, 0.08);
+    border: 1px solid var(--orange);
+    color: var(--orange-bright);
+    padding: 14px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  section {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 22px;
+    margin-bottom: 24px;
+  }
+  section h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--orange);
+    margin: 0 0 16px;
+  }
+  label { display: block; font-size: 12px; color: var(--muted); margin: 12px 0 6px; }
+  label:first-of-type { margin-top: 0; }
+  input, textarea {
+    width: 100%;
+    background: var(--ink);
+    border: 1px solid var(--line);
+    color: var(--cream);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 4px;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--orange); }
+  textarea { resize: vertical; min-height: 60px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  button {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 4px;
+    border: 1.5px solid var(--orange);
+    background: transparent;
+    color: var(--orange);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  button:hover { background: var(--orange); color: var(--ink); }
+  button.primary { background: var(--orange); color: var(--ink); }
+  button.primary:hover { background: var(--orange-bright); border-color: var(--orange-bright); }
+  button.danger { border-color: var(--error); color: var(--error); padding: 6px 12px; font-size: 11px; }
+  button.danger:hover { background: var(--error); color: var(--ink); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .project-card {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .project-card .info { flex: 1; min-width: 0; }
+  .project-card h3 { margin: 0 0 4px; font-size: 14px; color: var(--cream); }
+  .project-card .stack { color: var(--orange); font-size: 11px; margin-bottom: 6px; }
+  .project-card p { margin: 0 0 6px; font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .project-card a { color: var(--orange); font-size: 11px; word-break: break-all; }
+  .empty-state { color: var(--muted); font-size: 13px; text-align: center; padding: 20px 0; }
+  .log {
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    color: var(--muted);
+    margin-top: 16px;
+    max-height: 160px;
+    overflow-y: auto;
+  }
+  .log .ok { color: var(--success); }
+  .log .err { color: var(--error); }
+  .hint { font-size: 12px; color: var(--muted); margin: 0 0 12px; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>&gt;_ Portfolio Admin</h1>
+    <p class="subtitle">Add or remove project cards on your live site — no code required.</p>
+
+    <div class="warning">
+      ⚠️ Keep this page private. Anyone who has this file open with a valid token could edit your repo.
+      Don't publish this file anywhere, don't commit your token, and close this tab when you're done.
+      Your token is never saved — you'll re-enter it every time you open this page.
+    </div>
+
+    <section>
+      <h2>1. Connect to your repo</h2>
+      <label for="owner">GitHub username</label>
+      <input id="owner" type="text" value="Sunloid" />
+      <label for="repo">Repository name</label>
+      <input id="repo" type="text" value="Portfolio" />
+      <label for="branch">Branch</label>
+      <input id="branch" type="text" value="main" />
+      <label for="token">Personal access token</label>
+      <input id="token" type="password" placeholder="github_pat_... or ghp_..." autocomplete="off" />
+      <p class="hint">
+        Needs write access to this repo. Create one at
+        github.com → Settings → Developer settings → Fine-grained tokens →
+        set Repository access to just this repo, and Contents permission to
+        Read and write.
+      </p>
+      <div class="btn-row">
+        <button class="primary" id="load-btn">Load current projects</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Current projects</h2>
+      <div id="project-list" class="empty-state">Load your projects above to see them here.</div>
+    </section>
+
+    <section>
+      <h2>3. Add a new project</h2>
+      <label for="new-name">Name</label>
+      <input id="new-name" type="text" placeholder="my-new-project" />
+      <div class="row">
+        <div>
+          <label for="new-stack">Stack</label>
+          <input id="new-stack" type="text" placeholder="Docker / AWS" />
+        </div>
+        <div>
+          <label for="new-github">GitHub URL</label>
+          <input id="new-github" type="text" placeholder="https://github.com/Sunloid/..." />
+        </div>
+      </div>
+      <label for="new-upwork">Upwork URL <span style="color:var(--muted)">(optional — leave blank if this project isn't on Upwork)</span></label>
+      <input id="new-upwork" type="text" placeholder="https://www.upwork.com/..." />
+      <label for="new-description">Description</label>
+      <textarea id="new-description" placeholder="What the project does, in a sentence or two."></textarea>
+      <div class="btn-row">
+        <button id="add-btn">Add to list</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. Save</h2>
+      <p class="hint">Nothing changes on your live site until you click Save. GitHub Pages takes a minute or two to rebuild after that.</p>
+      <div class="btn-row">
+        <button class="primary" id="save-btn" disabled>Save changes to GitHub</button>
+        <button id="reload-btn" disabled>Discard changes &amp; reload</button>
+      </div>
+      <div id="log" class="log"></div>
+    </section>
+  </div>
+
+<script>
+  const state = { projects: [], sha: null, loaded: false };
+  const $ = (id) => document.getElementById(id);
+  const logEl = $("log");
+
+  function log(message, type) {
+    const line = document.createElement("div");
+    if (type) line.className = type;
+    line.textContent = message;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function apiUrl() {
+    const owner = $("owner").value.trim();
+    const repo = $("repo").value.trim();
+    return `https://api.github.com/repos/${owner}/${repo}/contents/projects.json`;
+  }
+
+  // UTF-8 safe base64 helpers — GitHub's API stores file content as base64.
+  function toBase64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+  function fromBase64(b64) {
+    return decodeURIComponent(escape(atob(b64)));
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>'"]/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;",
+    }[c]));
+  }
+
+  function renderList() {
+    const container = $("project-list");
+    container.innerHTML = "";
+    if (!state.projects.length) {
+      container.innerHTML = '<div class="empty-state">No projects yet — add one below.</div>';
+      return;
+    }
+    state.projects.forEach((project, index) => {
+      const card = document.createElement("div");
+      card.className = "project-card";
+      card.innerHTML = `
+        <div class="info">
+          <h3>${escapeHtml(project.name)}</h3>
+          <div class="stack">${escapeHtml(project.stack || "")}</div>
+          <p>${escapeHtml(project.description || "")}</p>
+          <a href="${project.githubUrl}" target="_blank" rel="noopener">GitHub: ${escapeHtml(project.githubUrl || "")}</a>
+          ${project.upworkUrl ? `<br><a href="${project.upworkUrl}" target="_blank" rel="noopener">Upwork: ${escapeHtml(project.upworkUrl)}</a>` : ""}
+        </div>
+      `;
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "danger";
+      deleteBtn.textContent = "Delete";
+      deleteBtn.addEventListener("click", () => {
+        if (!confirm(`Delete "${project.name}"? This won't be saved until you click Save.`)) return;
+        state.projects.splice(index, 1);
+        renderList();
+        markDirty();
+      });
+      card.appendChild(deleteBtn);
+      container.appendChild(card);
+    });
+  }
+
+  function markDirty() {
+    $("save-btn").disabled = false;
+    $("reload-btn").disabled = false;
+  }
+
+  $("load-btn").addEventListener("click", async () => {
+    const token = $("token").value.trim();
+    if (!token) { log("Enter your personal access token first.", "err"); return; }
+    $("load-btn").disabled = true;
+    log("Loading projects.json...");
+    try {
+      const branch = encodeURIComponent($("branch").value.trim());
+      const response = await fetch(`${apiUrl()}?ref=${branch}`, {
+        headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" },
+      });
+      if (!response.ok) throw new Error(`GitHub responded with ${response.status}`);
+      const data = await response.json();
+      state.sha = data.sha;
+      state.projects = JSON.parse(fromBase64(data.content));
+      state.loaded = true;
+      renderList();
+      log(`Loaded ${state.projects.length} project(s).`, "ok");
+      $("reload-btn").disabled = false;
+    } catch (error) {
+      log(`Failed to load: ${error.message}`, "err");
+    } finally {
+      $("load-btn").disabled = false;
+    }
+  });
+
+  $("add-btn").addEventListener("click", () => {
+    const name = $("new-name").value.trim();
+    const githubUrl = $("new-github").value.trim();
+    if (!name || !githubUrl) { log("A project needs at least a name and a GitHub URL.", "err"); return; }
+    if (!state.loaded) { log("Load your current projects first, so you don't overwrite them.", "err"); return; }
+    state.projects.unshift({
+      name,
+      stack: $("new-stack").value.trim(),
+      description: $("new-description").value.trim(),
+      githubUrl,
+      upworkUrl: $("new-upwork").value.trim(),
+    });
+    $("new-name").value = "";
+    $("new-stack").value = "";
+    $("new-github").value = "";
+    $("new-upwork").value = "";
+    $("new-description").value = "";
+    renderList();
+    markDirty();
+    log(`Added "${name}" to the list (not saved yet).`);
+  });
+
+  $("reload-btn").addEventListener("click", () => $("load-btn").click());
+
+  $("save-btn").addEventListener("click", async () => {
+    const token = $("token").value.trim();
+    if (!token) { log("Enter your personal access token first.", "err"); return; }
+    if (!state.loaded) { log("Load your projects before saving.", "err"); return; }
+    $("save-btn").disabled = true;
+    log("Saving to GitHub...");
+    try {
+      const response = await fetch(apiUrl(), {
+        method: "PUT",
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github+json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: "Update projects.json via admin panel",
+          content: toBase64(JSON.stringify(state.projects, null, 2)),
+          sha: state.sha,
+          branch: $("branch").value.trim(),
+        }),
+      });
+      if (!response.ok) {
+        const errBody = await response.json().catch(() => ({}));
+        throw new Error(errBody.message || `GitHub responded with ${response.status}`);
+      }
+      const data = await response.json();
+      state.sha = data.content.sha;
+      log("Saved! Your site will update in a minute or two.", "ok");
+    } catch (error) {
+      log(`Failed to save: ${error.message}`, "err");
+    } finally {
+      $("save-btn").disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

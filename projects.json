@@ -1,0 +1,44 @@
+[
+  {
+    "name": "k8s-blue-green-deployment",
+    "stack": "Kubernetes / Docker",
+    "description": "Blue-green deployment demo with parallel Nginx environments, Docker images, and zero-downtime traffic switching via Kubernetes Service selectors.",
+    "githubUrl": "https://github.com/Sunloid/k8s-blue-green-deployment",
+    "upworkUrl": ""
+  },
+  {
+    "name": "CICD-AWS-ECR-ECS",
+    "stack": "AWS / Jenkins",
+    "description": "End-to-end CI/CD pipeline that builds and tests a Java app, pushes images to Amazon ECR, and deploys automated rolling updates to ECS.",
+    "githubUrl": "https://github.com/Sunloid/CICD-AWS-ECR-ECS",
+    "upworkUrl": ""
+  },
+  {
+    "name": "CICD-Node-docker-k8s",
+    "stack": "Node.js / Kubernetes",
+    "description": "An automated Node.js delivery pipeline using Jenkins, Docker, Kubernetes, and GitHub webhooks.",
+    "githubUrl": "https://github.com/Sunloid/CICD-Node-docker-k8s",
+    "upworkUrl": ""
+  },
+  {
+    "name": "DockerCompose-K8S-Techdome",
+    "stack": "Full stack / Docker",
+    "description": "A full-stack frontend, backend, and database application containerized with Docker and orchestrated with Kubernetes for local deployment.",
+    "githubUrl": "https://github.com/Sunloid/DockerCompose-K8S-Techdome",
+    "upworkUrl": ""
+  },
+  {
+    "name": "wexaai-devops-assessment",
+    "stack": "Next.js / GitHub Actions",
+    "description": "A DevOps assessment demonstrating containerized Next.js deployment with Docker, GitHub Actions, GHCR, and Minikube.",
+    "githubUrl": "https://github.com/Sunloid/wexaai-devops-assessment",
+    "upworkUrl": ""
+  },
+  {
+    "name": "nextjs-express-mysql-deployment",
+    "stack": "Next.js / Express / MySQL",
+    "description": "A deployment-focused full-stack project built around Next.js, Express, and MySQL.",
+    "githubUrl": "https://github.com/Sunloid/nextjs-express-mysql-deployment",
+    "upworkUrl": ""
+  }
+]

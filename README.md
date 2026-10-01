@@ -1,3 +1,0 @@
-# Haider Rizavi Portfolio
-
-
