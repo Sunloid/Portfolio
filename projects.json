@@ -1,5 +1,12 @@
 [
   {
+    "name": "ECS-Fargate-Node-API",
+    "stack": "Docker, AWS",
+    "description": "A production-style deployment pipeline for a Node.js/Express API — containerized with Docker and deployed on AWS ECS Fargate, running behind an Application Load Balancer for high availability and health-checked routing. Built as a hands-on infrastructure project to demonstrate containerization, container orchestration, and load-balanced deployment",
+    "githubUrl": "https://github.com/Sunloid/ECS-Fargate-Node-API",
+    "upworkUrl": "https://www.upwork.com/services/product/development-it-containerized-node-js-api-on-aws-ecs-fargate-with-application-load-balancer-2097174778413824436?ref=fl_profile"
+  },
+  {
     "name": "DevOps-AWS-K8s",
     "stack": "Flask, MongoDB, Docker, AWS (EKS, VPC, ECR)",
     "description": "Full DevOps project: containerized a Flask + MongoDB to-do app with Docker, provisioned AWS infrastructure (VPC, EKS, ECR) with Terraform, deployed via Kubernetes manifests, and automated builds/deploys with GitHub Actions.",
@@ -14,24 +21,10 @@
     "upworkUrl": ""
   },
   {
-    "name": "CICD-AWS-ECR-ECS",
-    "stack": "AWS / Jenkins",
-    "description": "End-to-end CI/CD pipeline that builds and tests a Java app, pushes images to Amazon ECR, and deploys automated rolling updates to ECS.",
-    "githubUrl": "https://github.com/Sunloid/CICD-AWS-ECR-ECS",
-    "upworkUrl": ""
-  },
-  {
     "name": "CICD-Node-docker-k8s",
     "stack": "Node.js / Kubernetes",
     "description": "An automated Node.js delivery pipeline using Jenkins, Docker, Kubernetes, and GitHub webhooks.",
     "githubUrl": "https://github.com/Sunloid/CICD-Node-docker-k8s",
-    "upworkUrl": ""
-  },
-  {
-    "name": "nextjs-express-mysql-deployment",
-    "stack": "Next.js / Express / MySQL",
-    "description": "A deployment-focused full-stack project built around Next.js, Express, and MySQL.",
-    "githubUrl": "https://github.com/Sunloid/nextjs-express-mysql-deployment",
     "upworkUrl": ""
   }
 ]
